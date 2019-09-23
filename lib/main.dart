@@ -34,7 +34,6 @@ class StartStopState extends State<StartStopAndListBluetoothDevices> implements 
             isLoading = true;
           });
           bluetoothDevice.add(scanResult.device);
-
         }
     });
 
@@ -77,7 +76,11 @@ class StartStopState extends State<StartStopAndListBluetoothDevices> implements 
                 new Buttons("Stop", () {
                   print("Stopping Scan");
                   _cancelScan();
+                }),
+                Buttons("Disconnect",(){
+
                 })
+
               ],
             )
           ],
@@ -99,6 +102,8 @@ class ListOrProgress extends StatelessWidget  {
   ListOrProgress(this.isLoading, this.bluetoothDevice);
   BluetoothCharacteristic bluetoothCharacteristic;
   final List<BluetoothDevice> bluetoothDevice;
+
+
   _discoverServices(BluetoothDevice device) async {
     await device.connect();
     List<BluetoothService> services = await device.discoverServices();
@@ -119,8 +124,8 @@ class ListOrProgress extends StatelessWidget  {
 
 
     });
-
-    bluetoothCharacteristic.write([0x11]);
+    await bluetoothCharacteristic.write([0x61,0x62,0x63,0x64,0x65,0x66,0x77,0x78,0x69,0x]);
+    device.disconnect();
   }
   @override
   Widget build(BuildContext context) {
